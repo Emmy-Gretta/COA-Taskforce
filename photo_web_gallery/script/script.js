@@ -1,28 +1,36 @@
-// document.addEventListener("DOMContentLoaded", function() {
-//    const galleryItems = document.querySelectorAll('.gallery-item');
+document.addEventListener('DOMContentLoaded', () => {
+   const galleryImages = document.querySelectorAll('.gallery-image');
 
-//    galleryItems.forEach(item => {
-//        item.addEventListener('mouseover', () => {
-//            item.style.filter = 'brightness(0%)';
-//        });
+   galleryImages.forEach(image => {
+       // Create overlay div
+       const overlay = document.createElement('div');
+       overlay.classList.add('overlay');
+       image.appendChild(overlay);
 
-//        item.addEventListener('mouseout', () => {
-//            item.style.filter = 'brightness(100%)';
-//        });
-//    });
-// });
+       // Apply filter on mouse enter
+       image.addEventListener('mouseenter', () => {
+           overlay.style.backgroundImage = image.style.backgroundImage; // Set the same background image
+           overlay.style.filter = 'grayscale(0%) blur(0px) hue-rotate(0deg) saturate(100%) brightness(100%) contrast(100%)';
+           overlay.style.transform = 'scale(1.05)';
+       });
 
+       // Remove filter on mouse leave
+       image.addEventListener('mouseleave', () => {
+           overlay.style.filter = 'none';
+           overlay.style.transform = 'scale(1)';
+       });
 
-// Get the container element
-var container = document.querySelector('.container');
+       // Apply filter on "know more" link hover
+       const knowMoreLink = image.querySelector('.know-more');
+       knowMoreLink.addEventListener('mouseenter', () => {
+           overlay.style.filter = 'grayscale(0%) blur(0px) hue-rotate(0deg) saturate(100%) brightness(100%) contrast(100%)';
+           overlay.style.transform = 'scale(1.05)';
+       });
 
-// Create a new div for the filtered background
-var filteredBackground = document.createElement('div');
-filteredBackground.classList.add('filtered-item');
-
-// Set the background image and apply CSS filters
-filteredBackground.style.backgroundImage = "url('../assets/Fox.png')";
-filteredBackground.style.filter = "grayscale(100%) blur(5px) hue-rotate(180deg) saturate(150%) brightness(120%) contrast(90%)";
-
-// Append the filtered background to the container
-container.appendChild(filteredBackground);
+       // Remove filter on "know more" link mouse leave
+       knowMoreLink.addEventListener('mouseleave', () => {
+           overlay.style.filter = 'none';
+           overlay.style.transform = 'scale(1)';
+       });
+   });
+});
